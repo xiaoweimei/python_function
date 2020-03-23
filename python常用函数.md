@@ -84,3 +84,18 @@ def base64toimg(self,base64str):
     file.write(imgdata)
     file.close()
 ```
+### 对身份证号进行分析，提取出性别，出生日期
+```
+def getData(self, sfzh):
+    birth_year = int(sfzh[6:10])
+    birth_month = int(sfzh[10:12])
+    birth_day = int(sfzh[12:14])
+    birthday = "{0}-{1}-{2}".format(birth_year, birth_month, birth_day)
+    # """男生：1 女生：2"""
+    num = int(sfzh[16:17])
+    if num % 2 == 0:
+        sex = '女'
+    else:
+        sex = '男'
+    return birthday, sex, sfzh
+```
