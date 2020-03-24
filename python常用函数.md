@@ -164,3 +164,86 @@ for i in range(nrows):#所有的循环
 db.close()
 
 ```
+### python抓取百度百科
+```
+'''
+本脚本目的是写入全国县级行政区的基本信息
+'''
+import pymysql
+import re
+import requests
+from lxml import html
+from bs4 import BeautifulSoup
+import xlrd
+
+data = xlrd.open_workbook("C://Users//root//Desktop//list.xlsx")
+
+table = data.sheets()[0]
+nrows = table.nrows
+ncols = table.ncols
+
+user=input("请输入你的用户名：")
+password=input("请输入你的密码：")
+database=input("请输入你的数据库：")
+
+db = pymysql.connect("localhost", user, password,database, charset='utf8' )
+cursor = db.cursor()
+
+totalnumber=0
+baseurl='https://baike.baidu.com/item/'
+
+
+headers={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'}
+sheng=''
+shi=''
+for i in range(nrows):#所有的循环
+    url=baseurl+str(table.row_values(i)[1])
+
+    response=requests.get(url,headers=headers)
+    print(response.status_code)
+    print(response.url)
+    text=response.content.decode("utf-8")
+    tree=html.fromstring(text) 
+
+    result0=tree.xpath('//div[@class="basic-info cmn-clearfix"]//*/text()')
+    result9="".join(result0)
+    result99=re.sub("\[.*?]","",result9)
+    result10=result99.replace("'",'')
+    result1=result10.replace("\xa0","")
+    result2=result1.split('\n')
+    while "" in result2:
+        result2.remove("")
+    #print(result2)
+    number=range(0,len(result2),2)
+    s={}
+    if(len(result2)%2==0):
+        for i in number:
+            s[result2[i]]=result2[i+1]
+        print(s)
+    else:
+        continue
+    zwmc=ywmc=jc=ssz=sd=zycs=gqr=gg=gfyy=gjdm=hb=sq=zztz=gjlx=rksl=rkmd=zymz=zyzj=gtmj=syl=gdpzj=rjgdp=gjdhqh=gjymsx=dltx=gjxz=rlfzzs=''
+    fltx=zyyh=dlzgd=zmqy=zyxf=qh=lsrw=mzxz=zmrw=zmjd=nh=gq=dbrw=dbsw=whsx=tywz=''
+    pp=['中文名称','英文名称','简称','所属洲','首都','主要城市','国庆日','国歌','官方语言','国家代码','货币','时区','政治体制','国家领袖',
+    '人口数量','人口密度','主要民族','主要宗教','国土面积','水域率','GDP总计','人均GDP','国际电话区号','国际域名缩写','道路通行','国家象征',
+    '人类发展指数','法律体系','中央银行','地理最高点','著名企业','主要学府','气候','历史人物','民族象征','著名人物','著名景点',
+    '年号','国旗','代表人物','代表事物','文化思想','通用文字']
+    ddd=[]
+    for i in range(len(pp)):
+        if(str(pp[i]) in s):
+            ddd.append(str(s[str(pp[i])]))
+        else:
+            ddd.append('')
+    print(len(ddd),tuple(ddd))
+    totalnumber+=1
+    print("这是第"+str(totalnumber)+"条记录")
+    if(tuple(ddd)[0]!=''):
+        sql1="insert into countrynation_information values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % tuple(ddd)
+        print('----------------------------------------------------------------------')
+        cursor.execute(sql1)
+        print("插入"+str(totalnumber)+"数据")
+        cursor.connection.commit()
+    else:
+        pass
+print(totalnumber)
+```
