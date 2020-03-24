@@ -99,3 +99,68 @@ def getData(self, sfzh):
         sex = '男'
     return birthday, sex, sfzh
 ```
+### python连接与操作数据库
+```
+# -*- coding: UTF-8 -*-
+#!/usr/bin/python3
+ 
+import pymysql
+import xlrd
+
+data = xlrd.open_workbook("C://Users//root//Desktop//1.xlsx")
+table = data.sheets()[0]
+nrows = table.nrows
+ncols = table.ncols
+
+user=input("请输入你的用户名：")
+password=input("请输入你的密码：")
+database=input("请输入你的数据库：")
+
+# 打开数据库连接
+db = pymysql.connect("localhost", user, password,database, charset='utf8' )
+print(11111111111111)
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+print(22222222222222)
+# 如果数据表已经存在使用 execute() 方法删除表。
+cursor.execute("DROP TABLE IF EXISTS ADDRESS")
+print(33333333333333)
+# 创建数据表SQL语句
+sql = """CREATE TABLE ADDRESS(
+         ADDRESS_CODE  CHAR(10) NOT NULL,
+         ADDRESS_ENTRY CHAR(40) NOT NULL
+         )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4
+"""
+cursor.execute(sql)
+print("数据库创建成功")
+sheng=''
+shi=''
+for i in range(nrows):#所有的循环
+    a=table.row_values(i)
+    diyige=int(table.row_values(i)[0])
+    if(diyige%10000==0):#省一级的循环
+        shengqu=table.row_values(i)[0]
+        sheng=table.row_values(i)[1]
+    elif(diyige%100==0):#市一级的循环)
+        shiqu=table.row_values(i)[0]
+        shi=table.row_values(i)[1]
+    else:
+        diyige=int(table.row_values(i)[0])
+        if(str(shi)!=''and str(diyige)[0:4]==str(shiqu)[0:4]):
+            dierge=str(sheng)+str(shi)+table.row_values(i)[1]
+            print(type(diyige),type(dierge))
+            sql1="insert into ADDRESS values('%s','%s')" % (str(diyige),dierge)
+            cursor.execute(sql1)
+            cursor.connection.commit()
+            print("插入成功")
+        else:
+            dierge=str(sheng)+table.row_values(i)[1]
+            print(type(diyige),type(dierge))
+            sql1="insert into ADDRESS values('%s','%s')" % (str(diyige),dierge)
+            cursor.execute(sql1)
+            cursor.connection.commit()
+            print("插入成功")
+# 关闭数据库连接
+db.close()
+
+```
