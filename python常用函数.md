@@ -271,3 +271,33 @@ def name_generator(firstname,gender,number):#第一个参数为姓氏，第二�
                 result.append(name)
     return result
 ```
+### 百度百科
+```
+def baidubaike(name):
+    baseurl='https://baike.baidu.com/item/'
+    headers={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'}
+    url=baseurl+str(name)
+
+    response=requests.get(url,headers=headers)
+    print(response.status_code)
+    print(response.url)
+    text=response.content.decode("utf-8")
+    tree=html.fromstring(text) 
+
+    result0=tree.xpath('//div[@class="basic-info cmn-clearfix"]//*/text()')
+    result9="".join(result0)
+    result99=re.sub("\[.*?]","",result9)
+    result10=result99.replace("'",'')
+    result1=result10.replace("\xa0","")
+    result2=result1.split('\n')
+    while "" in result2:
+        result2.remove("")
+    number=range(0,len(result2),2)
+    s={}
+    if(len(result2)%2==0):
+        for i in number:
+            s[result2[i]]=result2[i+1]
+    else:
+        pass
+    return s
+```
