@@ -247,3 +247,27 @@ for i in range(nrows):#所有的循环
         pass
 print(totalnumber)
 ```
+### python自动生成男女多个姓名
+```
+def name_generator(firstname,gender,number):#第一个参数为姓氏，第二个参数为性别，第三个参数为数量，最终生成一个列表
+    girl= "秀娟英华慧巧美娜静淑惠珠翠雅芝玉萍红娥玲芬芳燕彩春菊兰凤洁梅琳素云莲真环雪荣爱妹霞香月莺媛艳瑞凡佳嘉琼勤珍贞莉桂娣叶璧璐娅琦晶妍茜秋珊莎锦黛青倩婷姣婉娴瑾颖露瑶怡婵雁蓓纨仪荷丹蓉眉君琴蕊薇菁梦岚苑婕馨瑗琰韵融园艺咏卿聪澜纯毓悦昭冰爽琬茗羽希宁欣飘育滢馥筠柔竹霭凝晓欢霄枫芸菲寒伊亚宜可姬舒影荔枝思丽"
+    boy = "伟刚勇毅俊峰强军平保东文辉力明永健世广志义兴良海山仁波宁贵福生龙元全国胜学祥才发武新利清飞彬富顺信子杰涛昌成康星光天达安岩中茂进林有坚和彪博诚先敬震振壮会思群豪心邦承乐绍功松善厚庆磊民友裕河哲江超浩亮政谦亨奇固之轮翰朗伯宏言若鸣朋斌梁栋维启克伦翔旭鹏泽晨辰士以建家致树炎德行时泰盛雄琛钧冠策腾楠榕风航弘"
+    result=[]
+    if(gender=='男'):
+        for i in range(int(number)):
+            if(randint(0,20)>16):
+                name=str(firstname)+choice(boy)
+                result.append(name)
+            else:
+                name=str(firstname)+choice(boy)+choice(boy)
+                result.append(name)
+    else:
+        for i in range(int(number)):
+            if(randint(0,20)>16):
+                name=str(firstname)+choice(girl)
+                result.append(name)
+            else:
+                name=str(firstname)+choice(girl)+choice(girl)
+                result.append(name)
+    return result
+```
