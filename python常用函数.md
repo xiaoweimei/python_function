@@ -301,3 +301,19 @@ def baidubaike(name):
         pass
     return s
 ```
+### 判断字符串是否全为中文字符,全为中文字符返回True，否则返回False
+```
+def is_all_chinese(strs):
+    for _char in strs:
+        if not '\u4e00' <= _char <= '\u9fa5':
+            return False
+    return True
+```
+### 判断字符串中是否含有中文字符，有中文字符返回True，否则返回False
+```
+def is_contains_chinese(strs):
+    for _char in strs:
+        if '\u4e00' <= _char <= '\u9fa5':
+            return True
+    return False
+```
