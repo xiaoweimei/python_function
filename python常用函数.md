@@ -46,9 +46,10 @@ def idnum(self,idcard):
         xishuhe = 0
         for i in range(17):
             xishuhe += int(idnumber[i]) * xishu[i]
-        jiaoyanzhi = int(idnumber[-1])
+        jiaoyanzhi = str(idnumber[-1])
         jiaoyanlist = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
-        if (int(jiaoyanlist[xishuhe % 11]) == jiaoyanzhi):
+        jiaoyanlist1 = ['1', '0', 'x', '9', '8', '7', '6', '5', '4', '3', '2']
+        if (str(jiaoyanlist[xishuhe % 11]) == jiaoyanzhi or str(jiaoyanlist1[xishuhe % 11]) == jiaoyanzhi):
             return True
         else:
             return False
