@@ -318,3 +318,17 @@ def is_contains_chinese(strs):
             return True
     return False
 ```
+### 图片压缩到指定大小之内
+```
+while(int(imgsize)/1024>400):
+    im = Image.open(self.imgName).convert('RGB')
+    print(im.mode)
+    im.save(os.path.join(base_path, "tmp.jpg"), quality=quality)
+    if((quality - 1) <= 0):
+        break
+    if(quality>=20):
+        quality-=10
+    else:
+        quality-=1
+    imgsize=os.path.getsize(os.path.join(base_path, "tmp.jpg"))
+```
