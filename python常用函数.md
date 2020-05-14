@@ -358,3 +358,39 @@ def get_screen_scale_rate():
     screen_scale_rate = round(real_resolution[0] / screen_size[0], 2)
     return screen_scale_rate
 ```
+### python字符串日期时间转为时间戳
+```
+
+# '2015-08-28 16:43:37.283' --> 1440751417.283
+# 或者 '2015-08-28 16:43:37' --> 1440751417.0
+def string2timestamp(strValue):
+ 
+    try:        
+        d = datetime.datetime.strptime(strValue, "%Y-%m-%d %H:%M:%S.%f")
+        t = d.timetuple()
+        timeStamp = int(time.mktime(t))
+        timeStamp = float(str(timeStamp) + str("%06d" % d.microsecond))/1000000
+        print timeStamp
+        return timeStamp
+    except ValueError as e:
+        print e
+        d = datetime.datetime.strptime(str2, "%Y-%m-%d %H:%M:%S")
+        t = d.timetuple()
+        timeStamp = int(time.mktime(t))
+        timeStamp = float(str(timeStamp) + str("%06d" % d.microsecond))/1000000
+        print timeStamp
+        return timeStamp
+```
+### python时间戳转为字符串日期时间
+```
+# 1440751417.283 --> '2015-08-28 16:43:37.283'
+def timestamp2string(timeStamp):
+    try:
+        d = datetime.datetime.fromtimestamp(timeStamp)
+        str1 = d.strftime("%Y-%m-%d %H:%M:%S.%f")
+        # 2015-08-28 16:43:37.283000'
+        return str1
+    except Exception as e:
+        print e
+        return ''
+```
